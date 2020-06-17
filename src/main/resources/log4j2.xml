@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">-->
+<Configuration>
+    <Properties>
+        <Property name="path">log/CatalogAdminPlus</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern=" %highlight{%-5p} | %d{yyyy-MM-dd HH:mm:ss,nnnn} | %c{1.} | %pid{[0]}  [%t] %tid %tp %msg%n"/>
+        </Console>
+
+        <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="${path}/${hostName}_application.log"
+                                 filePattern="${path}/archive/${hostName}_application-%d{yyyy-MM-dd}-%i.log.gz">
+            <JsonLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" locationInfo="false">
+                <KeyValuePair key="DateTime" value="$${date:yyyy-MM-dd HH:mm:ss:SSS}"/>
+            </JsonLayout>
+            			<Policies>
+            				<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            				<SizeBasedTriggeringPolicy size="500 MB"/>
+            			</Policies>
+            <DefaultRolloverStrategy max="30" min="1" fileIndex="max" compressionLevel="5"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="RollingRandomAccessFileSever" fileName="${path}/${hostName}_sever_application.log"
+                                 filePattern="${path}/archive/${hostName}_sever_application-%d{yyyy-MM-dd}-%i.log.gz">
+            <JsonLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" locationInfo="true">
+                <KeyValuePair key="DateTime" value="$${date:yyyy-MM-dd HH:mm:ss:SSS}"/>
+            </JsonLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30" min="1" fileIndex="max" compressionLevel="5"/>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+        <AsyncRoot level="info">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingRandomAccessFile"/>
+        </AsyncRoot>
+        <Logger includeLocation="true" name="com.boutiqaat.catalogadmin" level="INFO">
+            <AppenderRef ref="RollingRandomAccessFileSever"/>
+        </Logger>
+    </Loggers>
+
+</Configuration>
