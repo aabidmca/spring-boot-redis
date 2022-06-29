@@ -19,7 +19,7 @@
         <start-class>com.sample.UserApplication</start-class>
         <http.client.version>4.5.3</http.client.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
-        <poi-version>4.0.1</poi-version>
+        <poi-version>4.1.1</poi-version>
         <es-version>6.7.2</es-version>
     </properties>
 
